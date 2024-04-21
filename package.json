@@ -1,8 +1,6 @@
 {
   "name": "typescript-result",
   "version": "0.0.0",
-  "license": "Apache-2.0",
-  "private": false,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -12,13 +10,11 @@
     "name": "Gnuxie",
     "email": "Gnuxie@protonmail.com"
   },
-  "repository": {
-    "url": "https://github.com/Gnuxie/typescript-result.git",
-    "type": "git"
-  },
+  "license": "Apache-2.0",
+  "private": false,
   "scripts": {
-    "start": "yarn tsc --project tsconfig.json --watch",
     "build": "rm -rf dist && yarn tsc --project tsconfig.json",
+    "prepare": "yarn build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.7.0",
