@@ -55,9 +55,7 @@ type ErrorResult<Error = ResultError> = {
  * @see {@link ResultError}
  * @see {@link isError}
  */
-export type Result<Ok, Error = ResultError> =
-  | OkResult<Ok>
-  | ErrorResult<Error>;
+export type Result<Ok, Error = ResultError> = OkResult<Ok> | ErrorResult<Error>;
 
 /**
  * @param ok The value indicating a successful result.
@@ -137,10 +135,7 @@ export class ResultError {
    * Otherwise they wouldn't be able to pass other constructor arguments through this method.
    * @returns An `Result` with a `ResultError` as the `Error` value.
    */
-  public static Result(
-    message: string,
-    _options = {}
-  ): Result<never, ResultError> {
+  public static Result(message: string, _options = {}): Result<never> {
     return Err(new ResultError(message));
   }
 
