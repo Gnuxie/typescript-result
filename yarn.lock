@@ -512,9 +512,9 @@ globby@^11.1.0:
     merge2 "^1.4.1"
     slash "^3.0.0"
 
-"gnuxie-tsconfig@git+https://github.com/Gnuxie/tsconfig.git#0.2.0":
-  version "0.2.0"
-  resolved "git+https://github.com/Gnuxie/tsconfig.git#29820d9bf9ba8467bb8ea6bb36d729065da8024e"
+"gnuxie-tsconfig@git+https://github.com/Gnuxie/tsconfig.git#0.3.0":
+  version "0.3.0"
+  resolved "git+https://github.com/Gnuxie/tsconfig.git#935dec6f13a266b16199570c99405d1df7686e95"
 
 graphemer@^1.4.0:
   version "1.4.0"
