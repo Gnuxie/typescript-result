@@ -1,5 +1,5 @@
 {
-  "name": "typescript-result",
+  "name": "@gnuxie/typescript-result",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,6 +11,10 @@
     "email": "Gnuxie@protonmail.com"
   },
   "license": "Apache-2.0",
+  "repository": {
+    "url": "https://github.com/Gnuxie/typescript-result.git",
+    "type": "git"
+  },
   "private": false,
   "scripts": {
     "build": "rm -rf dist && yarn tsc --project tsconfig.json",
