@@ -19,16 +19,17 @@
 /**
  * A Result indicating success.
  */
-type OkResult<Ok> = {
+export type OkResult<Ok> = {
   ok: Ok;
   isOkay: true;
   match: typeof match;
+  expect: typeof expect;
 };
 
 /**
- * AResult indicating failure.
+ * A Result indicating failure.
  */
-type ErrorResult<Error = ResultError> = {
+export type ErrorResult<Error = ResultError> = {
   error: Error;
   isOkay: false;
   match: typeof match;
@@ -36,6 +37,7 @@ type ErrorResult<Error = ResultError> = {
    * Add context to an action result as it is passed down the stack.
    */
   elaborate: typeof elaborate;
+  expect: typeof expect;
 };
 
 /**
@@ -62,7 +64,7 @@ export type Result<Ok, Error = ResultError> = OkResult<Ok> | ErrorResult<Error>;
  * @returns Return an Result that was a success with the value ok.
  */
 export function Ok<Ok>(ok: Ok): Result<Ok, never> {
-  return { ok, isOkay: true, match };
+  return { ok, isOkay: true, match, expect };
 }
 
 /**
@@ -70,7 +72,7 @@ export function Ok<Ok>(ok: Ok): Result<Ok, never> {
  * @returns An `Result` that was a failure with the error value.
  */
 export function Err<Error>(error: Error): Result<never, Error> {
-  return { error, isOkay: false, match, elaborate };
+  return { error, isOkay: false, match, elaborate, expect };
 }
 
 /**
@@ -113,6 +115,26 @@ function match<T, Ok, Error = ResultError>(
   } else {
     return ok(this.ok);
   }
+}
+
+type ExtractOk<T> = T extends OkResult<infer Ok> ? Ok : never;
+
+export function ExpectError<TResult extends Result<unknown>>(
+  result: TResult,
+  elaboration: string
+): TResult extends ErrorResult ? never : ExtractOk<TResult> {
+  if (isError(result)) {
+    result.elaborate(elaboration);
+    throw result.error.toExpectError();
+  }
+  return result.ok as TResult extends ErrorResult ? never : ExtractOk<TResult>;
+}
+
+function expect<TResult extends Result<unknown>>(
+  this: TResult,
+  elaboration: string
+): TResult extends ErrorResult ? never : ExtractOk<TResult> {
+  return ExpectError(this, elaboration);
 }
 
 /**
@@ -160,5 +182,21 @@ export class ResultError {
 
   public get mostRelevantElaboration(): string {
     return this.elaborations.at(-1) ?? this.message;
+  }
+
+  public toReadableString(): string {
+    if (this.elaborations.length === 0) {
+      return this.message;
+    } else {
+      return `${this.elaborations.join("\nelaborated from: ")}\ncaused by: ${this.message}`;
+    }
+  }
+
+  public toString(): string {
+    return this.toReadableString();
+  }
+
+  public toExpectError(): Error {
+    return new TypeError(this.toReadableString());
   }
 }
