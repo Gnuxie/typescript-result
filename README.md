@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2024 Gnuxie <Gnuxie@protonmail.com>
+
+SPDX-License-Identifier: CC-BY-SA-4.0
+-->
+
 # Typescript result
 
 This is just a simple result type so that we can have type checked error
