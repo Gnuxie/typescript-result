@@ -16,3 +16,14 @@ export function hasOwn<O extends object, K extends PropertyKey>(
 ): o is ExtractOrExtend<O, K, unknown> {
   return Object.hasOwn(o, k);
 }
+
+export function getOwn<O extends object, K extends PropertyKey>(
+  o: O,
+  k: K
+): undefined | ExtractOrExtend<O, K, unknown>[K] {
+  if (hasOwn(o, k)) {
+    return o[k];
+  } else {
+    return undefined;
+  }
+}
